@@ -267,7 +267,74 @@ namespace ServiciiAtmE231A.Models
             }
         }
 
+        public bool InsertApelSeara(int id_c, int efc, int efp, int efa, DateTime data, int code)
+        {
+            if (code == 0)
+                return false;
+            using (var context = new ServiciiATMContext())
+            {
+                var apel = new Apel_seara
+                {
+                    ID_C = id_c,
+                    Efectiv_control = efc,
+                    Efectiv_prezenti = efp,
+                    Efectiv_absenti = efa,
+                    Data = data,
 
+                };
+                context.Apel_seara.Add(apel);
+                context.Entry(apel).State = System.Data.Entity.EntityState.Added;
+                context.SaveChanges();
+
+                return true;
+            }
+
+        }
+
+        public bool InsertComandanti(string name, string lastname, string tel, string mail, string adr, string gm, int code)
+        {
+            if (code == 0)
+                return false;
+            using (var context = new ServiciiATMContext())
+            {
+                var com = new Comandanti
+                {
+                    Nume = name,
+                    Prenume = lastname,
+                    Nr_tel = tel,
+                    Email = mail,
+                    Adresa = adr,
+                    Grad_militar = gm
+
+                };
+                context.Comandantis.Add(com);
+                context.Entry(com).State = System.Data.Entity.EntityState.Added;
+                context.SaveChanges();
+
+                return true;
+            }
+
+        }
+
+        public bool InsertCompanii(int id_com, string an_studiu, int code)
+        {
+            if (code == 0)
+                return false;
+            using (var context = new ServiciiATMContext())
+            {
+                var com = new Companii
+                {
+                    ID_com = id_com,
+                    An_studii = an_studiu,
+                };
+                context.Companiis.Add(com);
+                context.Entry(com).State = System.Data.Entity.EntityState.Added;
+                context.SaveChanges();
+
+                return true;
+            }
+
+        }
 
 
     }
