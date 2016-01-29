@@ -17,103 +17,219 @@ namespace ServiciiAtmE231A.Models
 
             _dal = new Database_Access_Layer();
         }
-        public IEnumerable<Apel_seara> showApel_Seara()
+        public IEnumerable<Object> GetListaServiciiByAn(string an)
         {
-            
-          
-             var y = from a in _dal.Apel_seara()
-                        select a ;
-            
-            return y;
-        }
-        public IEnumerable<Servicii>showServicii()
-        {
-
-
-            var y = from a in _dal.Servicii()
-                    select a;
-
-            return y;
-        }
-        public IEnumerable<Comandanti> showComandanti()
-        {
-            var y = from a in _dal.Comandanti()
-                    select a;
-            return y;
+            return _dal.GetListaServiciiByAn(an);
         }
 
         public IEnumerable<Object> Print_Servicii_Data(DateTime d)
         {
-            var v =
-                from r in _dal.Studenti()
-                from u in _dal.Servicii()
-                from s in _dal.Lista_servicii()
-                from x in _dal.Companii()
-
-                where r.ID_S == u.ID_S
-                where u.ID_ls == s.ID_ls
-                where x.ID_C == r.ID_C
-                where u.Data == d
-                orderby u.Data
-
-                select new { r.Nume, r.Prenume, s.Nume_serviciu, u.Data, x.ID_com };
-            
-
-                return v;
-
-
+            return _dal.Print_Servicii_Data(d);
         }
 
-        public void Email_to_single(string to, string from, string subject, string message, string password)
+        public IEnumerable<Object> GetListaServiciiByNrComponenta(int nrComponenta)
         {
-            MailMessage msg = new MailMessage();
-            msg.From = new MailAddress(from);
-            msg.To.Add(new MailAddress(to));
-            msg.Subject = subject;
-            msg.Body = message;
-            msg.IsBodyHtml = true;
-
-            SmtpClient smtp = new SmtpClient();
-            smtp.Host = "smtp.gmail.com";
-
-            System.Net.NetworkCredential Network_Cred = new System.Net.NetworkCredential();
-            Network_Cred.UserName = from;
-            Network_Cred.Password = password;
-
-            smtp.UseDefaultCredentials = true;
-            smtp.Credentials = Network_Cred;
-            smtp.Port = 587;
-            smtp.EnableSsl = true;
-            smtp.Send(msg);
-
+            return _dal.GetListaServiciiByNrComponenta(nrComponenta);
         }
 
-        public void Email_to_all(List<string> emails, string from, string subject, string message, string password)
+        public IEnumerable<Object> GetServiciiComp(int Companie)
         {
-            SmtpClient smtp = new SmtpClient();
-            smtp.Host = "smtp.gmail.com";
-            System.Net.NetworkCredential Network_Cred = new System.Net.NetworkCredential();
-            Network_Cred.UserName = from;
-            Network_Cred.Password = password;
+            return _dal.GetServiciiComp(Companie);
+        }
 
-            smtp.UseDefaultCredentials = true;
-            smtp.Credentials = Network_Cred;
-            smtp.Port = 587;
-            smtp.EnableSsl = true;
+        public IEnumerable<Object> GetServStudent(string Nume, string Prenume)
+        {
+            return _dal.GetServStudent(Nume, Prenume);
+        }
 
-            foreach (var email_adress in emails)
+        // returneaza numele sau prenumele cautat in functie de Email , pt cod 1 returneaza numele , pt cod 2 returneaza prenumele
+        public string GetNumePrenumeforEmai(string Email, int cod)
+        {
+            string a = "";
+            foreach (var v in _dal.Studenti())
             {
-                MailMessage msg = new MailMessage();
-                msg.From = new MailAddress(from);
-                msg.To.Add(new MailAddress(email_adress));
-                msg.Subject = subject;
-                msg.Body = message;
-                msg.IsBodyHtml = true;
-                smtp.Send(msg);
+                if (v.Email == Email && cod == 0)
+                {
+                    a = v.Nume;
+                }
+                if (v.Email == Email && cod == 1)
+                {
+                    a = v.Prenume;
+                }
+            }
+            foreach (var v in _dal.Comandanti())
+            {
+                if (v.Email == Email && cod == 0)
+                {
+                    a = v.Nume;
+                }
+                if (v.Email == Email && cod == 1)
+                {
+                    a = v.Prenume;
+                }
+            }
+            return a;
+        }
 
+        // userului i se va seta prioritatea in functie de nume prenume si email
+        public int GetPrioAfterName(string nume, string prenume, string Email)
+        {
+            int prio = -1;
+            foreach (var v in _dal.Studenti())
+            {
+                if (v.Email == Email && v.Nume == nume && v.Prenume == prenume)
+                {
+                    prio = 0; ;
+                }
             }
 
+
+            foreach (var v in _dal.Comandanti())
+            {
+                if (v.Email == Email && v.Nume == nume && v.Prenume == prenume)
+                {
+                    prio = 1; ;
+                }
+            }
+
+            return prio;
         }
-          
+
+        //Userul va inregistra Email-ul de pe care este conectat
+        public void setEmailUser(string Email)
+        {
+            _user.email = Email;
+
+        }
+
+        // parametrii de intrare -> datele comandantului , si se va return o lista cu studentii care nu si-au vizualizat serviciile de ziua urmatoare
+        //EmailSauNumPre =0  return Email , EmailSauNumPre =1 return nume prenume
+        public List<String> listOfUncheckedStud(string NumeC, string PrenumeC, int EmailSauNumPre)
+        {
+            List<String> i = new List<String>();
+            List<int> id_s = new List<int>();
+            int IDcom = new int();
+            int ID_C = new int();
+            string Stud;
+            foreach (var v in _dal.Comandanti())
+            {
+                if (v.Nume == NumeC && v.Prenume == PrenumeC)
+                {
+                    IDcom = v.ID_com;
+                }
+            }
+
+            foreach (var v in _dal.Companii())
+            {
+                if (v.ID_com == IDcom)
+                {
+                    ID_C = v.ID_C;
+                }
+            }
+
+            foreach (var v in _dal.Servicii())
+            {
+                if (v.Data.Value.Day == DateTime.Now.Day + 1)
+                {
+                    id_s.Add(v.ID_S);
+                }
+            }
+
+            foreach (var v in _dal.Studenti())
+            {
+                foreach (var s in id_s)
+                {
+                    if (EmailSauNumPre == 1)
+                    {
+                        if (v.ID_C == ID_C && s == v.ID_S)
+                        {
+                            Stud = "Nume: ";
+                            Stud += v.Nume;
+                            Stud += " Prenume: ";
+                            Stud += v.Prenume;
+                            i.Add(Stud);
+                        }
+                    }
+                    else
+                    {
+                        if (EmailSauNumPre == 0)
+                        {
+                            if (v.ID_C == ID_C && s == v.ID_S)
+                            {
+                                i.Add(v.Email);
+                            }
+                        }
+                    }
+                }
+            }
+            return i;
+        }
+
+        //in functie de numele si prenumele unui student se va returna o lista cu serviciile pe care nu le-a vizualizat
+        public List<String> listOfServicesStud(string Nume, string Prenume)
+        {
+            List<String> i = new List<String>();
+            String info;
+            int ID_S = new int();
+
+            foreach (var v in _dal.Studenti())
+            {
+                if (v.Nume == Nume && v.Prenume == Prenume)
+                {
+                    ID_S = v.ID_S;
+                }
+            }
+            foreach (var v in _dal.Servicii())
+            {
+                foreach (var vv in _dal.Lista_servicii())
+                {
+                    if (v.ID_S == ID_S && v.ID_ls == vv.ID_ls && v.Check == false)
+                    {
+                        info = vv.Nume_serviciu;
+                        info += v.Data;
+                        i.Add(info);
+                    }
+                }
+            }
+
+
+
+            return i;
+        }
+
+        //returneaza Email-ul unui student in functie de nume si prenume
+        public string GetEmailOFStud(string Nume, string Prenume)
+        {
+            string Email = "";
+            foreach (var v in _dal.Studenti())
+            {
+                if (v.Nume == Nume && v.Prenume == Prenume)
+                {
+                    Email = v.Email;
+                }
+            }
+            return Email;
+        }
+
+        //returneaza Lista email-urilor in functie de Companie
+        public List<String> listOfEmailsCompanie(int ID_C)
+        {
+            List<String> i = new List<string>();
+
+            foreach (var v in _dal.Studenti())
+            {
+                if (v.ID_C == ID_C)
+                {
+                    i.Add(v.Email);
+                }
+            }
+
+            return i;
+        }
+
+
+
+
+
     }
 }

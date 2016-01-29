@@ -26,7 +26,6 @@ namespace ServiciiAtmE231A.Models
             return Comandanti;
         }
 
-
         public List<Studenti> Studenti()
         {
             List<Studenti> Studenti = new List<Studenti>();
@@ -37,7 +36,6 @@ namespace ServiciiAtmE231A.Models
             }
             return Studenti;
         }
-
 
         public List<Companii> Companii()
         {
@@ -50,8 +48,6 @@ namespace ServiciiAtmE231A.Models
             return Companii;
         }
 
-
-
         public List<Invoire_apel> Invoire_apel()
         {
             List<Invoire_apel> Invoire_apel = new List<Invoire_apel>();
@@ -62,8 +58,6 @@ namespace ServiciiAtmE231A.Models
             }
             return Invoire_apel;
         }
-
-
 
         public List<Apel_seara> Apel_seara()
         {
@@ -86,7 +80,6 @@ namespace ServiciiAtmE231A.Models
             }
             return Lista_servicii;
         }
-
 
         public List<Servicii> Servicii()
         {
@@ -120,8 +113,55 @@ namespace ServiciiAtmE231A.Models
 
         }
 
+        //print servicii dintr-o data
+        public IEnumerable<Object> Print_Servicii_Data(DateTime d)
+        {
+            var v =
+                from r in _dal.Studenti()
+                from u in _dal.Servicii()
+                from s in _dal.Lista_servicii()
+                from x in _dal.Companii()
+
+                where r.ID_S == u.ID_S
+                where u.ID_ls == s.ID_ls
+                where x.ID_C == r.ID_C
+                where u.Data == d
+                orderby u.Data
+
+                select new { r.Nume, r.Prenume, s.Nume_serviciu, u.Data, x.ID_com };
+            return v;
+        }
+
+        //meteoda sa afiseze serviciile dintr-o companie
+        public IEnumerable<Object> GetServiciiComp(int Companie)
+        {
+            var lista = from stud in _dal.Studenti()
+                        from lst in _dal.Lista_servicii()
+                        from serv in _dal.Servicii()
+                        where stud.ID_C == Companie
+                        where lst.ID_ls == serv.ID_ls
+                        where serv.ID_S == stud.ID_S
+                        select new { stud.Nume, stud.Prenume, serv.Data, lst.Nume_serviciu, stud.ID_C };
+            return lista;
+
+        }
+
+        //afisare servicii a unui student
+        public IEnumerable<Object> GetServStudent(string Nume, string Prenume)
+        {
+            var lista = from stud in _dal.Studenti()
+                        from lst in _dal.Lista_servicii()
+                        from serv in _dal.Servicii()
+                        where stud.Nume == Nume
+                        where stud.Prenume == Prenume
+                        where lst.ID_ls == serv.ID_ls
+                        where serv.ID_S == stud.ID_S
+                        select new { stud.Nume, stud.Prenume, lst.Nume_serviciu, serv.Data, serv.Check };
+            return lista;
+        }
+
         //o metoda pentru afisarea servicilor din tabela Lista_servicii in functie de numar componența
-       public IEnumerable<object> GetListaServiciiByNrComponenta(int nrComponenta)
+        public IEnumerable<object> GetListaServiciiByNrComponenta(int nrComponenta)
         {
             var lista_nr = from c in _dal.Lista_servicii()
                            from x in _dal.Companii()
@@ -133,13 +173,6 @@ namespace ServiciiAtmE231A.Models
             return lista_nr;
         }
 
-        public DataTable GetAllServices()
-        {
-            var query = string.Format("select * from Lista_servicii");
-            var sqlParameters = new SqlParameter[1];
-            return con.executeSelectQuery(query, sqlParameters);
-
-        }
         public List<LoginComandanti_table>GetUaP()
         {
             List<LoginComandanti_table> LoginCmd = new List<LoginComandanti_table>();
@@ -150,6 +183,7 @@ namespace ServiciiAtmE231A.Models
             }
             return LoginCmd;
         }
+
         public IEnumerable<object> GetUser(string user,string pass)
         {
             var y = from com in _dal.Comandanti()
@@ -159,6 +193,7 @@ namespace ServiciiAtmE231A.Models
             return y;
 
         }
+
         public IEnumerable<object> GetEmail(string email)
         {
             var y = from com in _dal.Comandanti()
@@ -168,6 +203,7 @@ namespace ServiciiAtmE231A.Models
             return y;
 
         }
+
         public IEnumerable<object>GetPass(string pas)
         {
             var y = from com in _dal.Comandanti()
