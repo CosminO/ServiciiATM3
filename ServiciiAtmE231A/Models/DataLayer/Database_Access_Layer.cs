@@ -336,56 +336,6 @@ namespace ServiciiAtmE231A.Models
 
         }
 
-        //,companii
-
-        public void DeleteApelSeara(DateTime data)
-        {
-            using (var context = new ServiciiATMContext())
-            {
-                var std = context.Apel_seara.Where(n => n.Data == data).ToList<Apel_seara>().FirstOrDefault();
-                if (std != null)
-                {
-                    context.Apel_seara.Attach(std);
-                    context.Apel_seara.Remove(std);
-                    context.Entry(std).State = System.Data.Entity.EntityState.Deleted;
-                    context.SaveChanges();
-                }
-
-            }
-        }
-
-        public void DeleteListaServicii(string name)
-        {
-            using (var context = new ServiciiATMContext())
-            {
-                var std = context.Lista_servicii.Where(n => n.Nume_serviciu == name).ToList<Lista_servicii>().FirstOrDefault();
-                if (std != null)
-                {
-                    context.Lista_servicii.Attach(std);
-                    context.Lista_servicii.Remove(std);
-                    context.Entry(std).State = System.Data.Entity.EntityState.Deleted;
-                    context.SaveChanges();
-                }
-
-            }
-        }
-
-        
-        public void DeleteCompanii(string an)
-        {
-            using (var context = new ServiciiATMContext())
-            {
-                var std = context.Companiis.Where(n => n.An_studii == an).ToList<Companii>().FirstOrDefault();
-                if (std != null)
-                {
-                    context.Companiis.Attach(std);
-                    context.Companiis.Remove(std);
-                    context.Entry(std).State = System.Data.Entity.EntityState.Deleted;
-                    context.SaveChanges();
-                }
-            }
-        }
-
 
     }
 }
