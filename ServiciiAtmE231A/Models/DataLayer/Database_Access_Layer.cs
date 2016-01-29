@@ -177,5 +177,98 @@ namespace ServiciiAtmE231A.Models
             return y;
         }
 
+        public bool InsertInvoireSeara(int id_s, DateTime data, TimeSpan ora_plecare, TimeSpan ora_sosire, int code)
+        {
+            if (code == 0)
+                return false;
+            using (var context = new ServiciiATMContext())
+            {
+                var invoire = new Invoire_apel
+                {
+                    ID_S = id_s,
+                    Ora_plecare = ora_plecare,
+                    Ora_sosire = ora_sosire,
+                    Data = data,
+
+                };
+                context.Invoire_apel.Add(invoire);
+                context.Entry(invoire).State = System.Data.Entity.EntityState.Added;
+                context.SaveChanges();
+
+                return true;
+            }
+
+        }
+        public bool InsertListaServicii(string nume, int nr_comp, string an, int code)
+        {
+            if (code == 0)
+                return false;
+            using (var context = new ServiciiATMContext())
+            {
+                var lista = new Lista_servicii
+                {
+                    Nume_serviciu = nume,
+                    Nr_componenta = nr_comp,
+                    An_studiu = an,
+                };
+                context.Lista_servicii.Add(lista);
+                context.Entry(lista).State = System.Data.Entity.EntityState.Added;
+                context.SaveChanges();
+
+                return true;
+            }
+
+        }
+        public bool InsertStudenti(int id_c, string nume, string prenume, string mail, string tel, string grad, int camera, string functie, int code)
+        {
+            if (code == 0)
+                return false;
+            using (var context = new ServiciiATMContext())
+            {
+                var student = new Studenti
+                {
+                    ID_C = id_c,
+                    Nume = nume,
+                    Prenume = prenume,
+                    Email = mail,
+                    Nr_tel = tel,
+                    Grad_militar = grad,
+                    Camera = camera,
+                    Functie = functie,
+
+                };
+                context.Studentis.Add(student);
+                context.Entry(student).State = System.Data.Entity.EntityState.Added;
+                context.SaveChanges();
+
+                return true;
+            }
+
+        }
+
+        public bool InsertServicii(int id_l, int id_s, DateTime data, bool check, int code)
+        {
+            if (code == 0)
+                return false;
+            using (var context = new ServiciiATMContext())
+            {
+                var serv = new Servicii
+                {
+                    ID_ls = id_l,
+                    ID_S = id_s,
+                    Data = data,
+                    Check = check
+                };
+                context.Serviciis.Add(serv);
+                context.Entry(serv).State = System.Data.Entity.EntityState.Added;
+                context.SaveChanges();
+
+                return true;
+            }
+        }
+
+
+
+
     }
 }
