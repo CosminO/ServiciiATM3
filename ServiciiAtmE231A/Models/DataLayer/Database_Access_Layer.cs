@@ -420,5 +420,71 @@ namespace ServiciiAtmE231A.Models
             }
         }
 
+        public void DeleteStudent(string name, string lastname)
+        {
+            using (var context = new ServiciiATMContext())
+            {
+                var std = context.Studentis.Where(n => n.Nume == name && n.Prenume == lastname).ToList<Studenti>().FirstOrDefault();
+                if (std != null)
+                {
+                    context.Studentis.Attach(std);
+                    context.Studentis.Remove(std);
+                    context.Entry(std).State = System.Data.Entity.EntityState.Deleted;
+                    context.SaveChanges();
+                }
+
+            }
+        }
+
+        //Merge
+        public void DeleteServicii(DateTime time)
+        {
+            using (var context = new ServiciiATMContext())
+            {
+                var serv = context.Serviciis.Where(n => n.Data == time && n.Data < DateTime.Now).ToList<Servicii>().FirstOrDefault();
+                if (serv != null)
+                {
+                    context.Serviciis.Attach(serv);
+                    context.Serviciis.Remove(serv);
+                    context.Entry(serv).State = System.Data.Entity.EntityState.Deleted;
+                    context.SaveChanges();
+                }
+
+            }
+        }
+
+
+        public void DeleteComandanti(string nume, string prenume)
+        {
+            using (var context = new ServiciiATMContext())
+            {
+                var cdt = context.Comandantis.Where(n => n.Nume == nume && n.Prenume == prenume).ToList<Comandanti>().FirstOrDefault();
+                if (cdt != null)
+                {
+                    context.Comandantis.Attach(cdt);
+                    context.Comandantis.Remove(cdt);
+                    context.Entry(cdt).State = System.Data.Entity.EntityState.Deleted;
+                    context.SaveChangesAsync();
+                }
+
+            }
+        }
+
+        public void DeleteInvApel(DateTime dt)
+        {
+            using (var context = new ServiciiATMContext())
+            {
+                var std = context.Apel_seara.Where(n => n.Data == dt).ToList<Apel_seara>().FirstOrDefault();
+                if (std != null)
+                {
+                    context.Apel_seara.Attach(std);
+                    context.Apel_seara.Remove(std);
+                    context.Entry(std).State = System.Data.Entity.EntityState.Deleted;
+                    context.SaveChanges();
+                }
+
+            }
+        }
+
     }
 }
