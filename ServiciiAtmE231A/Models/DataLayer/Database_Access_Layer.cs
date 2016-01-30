@@ -486,5 +486,111 @@ namespace ServiciiAtmE231A.Models
             }
         }
 
+        public bool UpdateInvoireApel(int id_s,  DateTime data, TimeSpan ora_plecare, TimeSpan ora_sosire, int code)
+        {
+            if (code == 0)
+                return false;
+
+            using (var context = new ServiciiATMContext())
+            {
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var serv = new Invoire_apel
+                        {
+                            ID_S = id_s,
+                            Data = data,
+                            Ora_plecare=ora_plecare,
+                            Ora_sosire=ora_sosire
+
+                        };
+                        context.Invoire_apel.Add(serv);
+                        context.Entry(serv).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+                        transaction.Commit();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        return false;
+                    }
+                }
+            }
+        }
+
+        public bool UpdateListaServicii(string nume, int nr, string an, int code)
+        {
+            if (code == 0)
+                return false;
+
+            using (var context = new ServiciiATMContext())
+            {
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var serv = new Lista_servicii
+                        {
+                            Nume_serviciu = nume,
+                            Nr_componenta = nr,
+                            An_studiu = an,
+                           
+                        };
+                        context.Lista_servicii.Add(serv);
+                        context.Entry(serv).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+                        transaction.Commit();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        return false;
+                    }
+                }
+            }
+        }
+
+        public bool UpdateStudenti(int id_c, string name, string prenume, string email, string tel, string grad, int camera, string functie, int code)
+        {
+            if (code == 0)
+                return false;
+
+            using (var context = new ServiciiATMContext())
+            {
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var serv = new Studenti
+                        {
+                            ID_C=id_c,
+                            Nume=name,
+                            Prenume=prenume,
+                            Email=email,
+                            Nr_tel=tel,
+                            Grad_militar=grad,
+                            Camera=camera,
+                            Functie=functie
+
+                        };
+                        context.Studentis.Add(serv);
+                        context.Entry(serv).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+                        transaction.Commit();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        return false;
+                    }
+                }
+            }
+        }
+
+
     }
 }
