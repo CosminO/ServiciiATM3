@@ -9,11 +9,11 @@ using System.Web;
 
 namespace ServiciiAtmE231A.Models
 {
-    
+
     public class Database_Access_Layer
     {
         public static dbConnection con = new dbConnection();
-        public static Database_Access_Layer _dal=new Database_Access_Layer();
+        public static Database_Access_Layer _dal = new Database_Access_Layer();
         public readonly ServiciiATMContext context = new ServiciiATMContext();
         public List<Comandanti> Comandanti()
         {
@@ -106,8 +106,8 @@ namespace ServiciiAtmE231A.Models
                                  where c.An_studiu == an
 
                                  orderby c.An_studiu
-                              
-            select new { c.Nume_serviciu,c.Nr_componenta,r.Nume, r.Prenume,c.An_studiu };
+
+                                 select new { c.Nume_serviciu, c.Nr_componenta, r.Nume, r.Prenume, c.An_studiu };
 
             return lista_servicii;
 
@@ -165,7 +165,7 @@ namespace ServiciiAtmE231A.Models
         {
             var lista_nr = from c in _dal.Lista_servicii()
                            from x in _dal.Companii()
-                           where c.Nr_componenta==nrComponenta
+                           where c.Nr_componenta == nrComponenta
                            orderby c.Nume_serviciu
 
                            select new { c.Nume_serviciu, c.Nr_componenta, c.An_studiu };
@@ -173,23 +173,23 @@ namespace ServiciiAtmE231A.Models
             return lista_nr;
         }
 
-        public List<LoginComandanti_table>GetUaP()
+        public List<LoginComandanti_table> GetUaP()
         {
             List<LoginComandanti_table> LoginCmd = new List<LoginComandanti_table>();
             var lgi = context.LoginComandanti_table;
             foreach (var com in lgi)
             {
-               LoginCmd.Add(com);
+                LoginCmd.Add(com);
             }
             return LoginCmd;
         }
 
-        public IEnumerable<object> GetUser(string user,string pass)
+        public IEnumerable<object> GetUser(string user, string pass)
         {
             var y = from com in _dal.Comandanti()
                     from tbl in _dal.GetUaP()
-                    where (com.ID_com == tbl.Id_C && com.Nume==user && tbl.Parola==pass)
-                    select new  { com.Nume,tbl.Parola};
+                    where (com.ID_com == tbl.Id_C && com.Nume == user && tbl.Parola == pass)
+                    select new { com.Nume, tbl.Parola };
             return y;
 
         }
@@ -198,18 +198,18 @@ namespace ServiciiAtmE231A.Models
         {
             var y = from com in _dal.Comandanti()
                     from tbl in _dal.GetUaP()
-                    where (com.ID_com == tbl.Id_C && com.Email==email)
-                    select  com.Email ;
+                    where (com.ID_com == tbl.Id_C && com.Email == email)
+                    select com.Email;
             return y;
 
         }
 
-        public IEnumerable<object>GetPass(string pas)
+        public IEnumerable<object> GetPass(string pas)
         {
             var y = from com in _dal.Comandanti()
                     from tbl in _dal.GetUaP()
-                    where (com.ID_com == tbl.Id_C && tbl.Parola==pas)
-                    select  tbl.Parola ;
+                    where (com.ID_com == tbl.Id_C && tbl.Parola == pas)
+                    select tbl.Parola;
             return y;
         }
 
@@ -486,7 +486,7 @@ namespace ServiciiAtmE231A.Models
             }
         }
 
-        public bool UpdateInvoireApel(int id_s,  DateTime data, TimeSpan ora_plecare, TimeSpan ora_sosire, int code)
+        public bool UpdateInvoireApel(int id_s, DateTime data, TimeSpan ora_plecare, TimeSpan ora_sosire, int code)
         {
             if (code == 0)
                 return false;
@@ -501,8 +501,8 @@ namespace ServiciiAtmE231A.Models
                         {
                             ID_S = id_s,
                             Data = data,
-                            Ora_plecare=ora_plecare,
-                            Ora_sosire=ora_sosire
+                            Ora_plecare = ora_plecare,
+                            Ora_sosire = ora_sosire
 
                         };
                         context.Invoire_apel.Add(serv);
@@ -536,7 +536,7 @@ namespace ServiciiAtmE231A.Models
                             Nume_serviciu = nume,
                             Nr_componenta = nr,
                             An_studiu = an,
-                           
+
                         };
                         context.Lista_servicii.Add(serv);
                         context.Entry(serv).State = System.Data.Entity.EntityState.Modified;
@@ -566,14 +566,14 @@ namespace ServiciiAtmE231A.Models
                     {
                         var serv = new Studenti
                         {
-                            ID_C=id_c,
-                            Nume=name,
-                            Prenume=prenume,
-                            Email=email,
-                            Nr_tel=tel,
-                            Grad_militar=grad,
-                            Camera=camera,
-                            Functie=functie
+                            ID_C = id_c,
+                            Nume = name,
+                            Prenume = prenume,
+                            Email = email,
+                            Nr_tel = tel,
+                            Grad_militar = grad,
+                            Camera = camera,
+                            Functie = functie
 
                         };
                         context.Studentis.Add(serv);
@@ -591,6 +591,125 @@ namespace ServiciiAtmE231A.Models
             }
         }
 
+        public bool UpdateApelSeara(int id_c, int efc, int efp, int efa, DateTime data, int code)
+        {
+            if (code == 0)
+                return false;
 
+            using (var context = new ServiciiATMContext())
+            {
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var apel = new Apel_seara
+                        {
+                            ID_C = id_c
+                        };
+
+                        context.Apel_seara.Attach(apel);
+                        context.Entry(apel).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+                        transaction.Commit();
+                        return true;
+
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        return false;
+                    }
+                }
+            }
+
+        }
+
+        public bool UpdateComandanti(string name, string lastname, string tel, string mail, string adr, string gm, int code)
+        {
+            if (code == 0)
+                return false;
+            using (var transaction = context.Database.BeginTransaction())
+            {
+                try
+                {
+                    var com = new Comandanti
+                    {
+                        Nume = name,
+                        Prenume = lastname,
+
+                    };
+                    context.Comandantis.Attach(com);
+                    context.Entry(com).State = System.Data.Entity.EntityState.Modified;
+                    context.SaveChanges();
+                    transaction.Commit();
+                    return true;
+
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    return false;
+                }
+            }
+        }
+
+        public bool UpdateCompanii(int id_com, string an_studiu, int code)
+        {
+            if (code == 0)
+                return false;
+            using (var transaction = context.Database.BeginTransaction())
+            {
+                try
+                {
+                    var c = new Companii
+                    {
+                        ID_com = id_com,
+                        An_studii = an_studiu,
+                    };
+                    context.Companiis.Attach(c);
+                    context.Entry(c).State = System.Data.Entity.EntityState.Modified;
+                    context.SaveChanges();
+                    transaction.Commit();
+                    return true;
+
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    return false;
+                }
+            }
+        }
+        public bool UpdServicii(int id_l, int id_s, DateTime data, bool check, int code)
+        {
+            if (code == 0)
+                return false;
+
+            using (var context = new ServiciiATMContext())
+            {
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var serv = new Servicii
+                        {
+                            ID_ls = id_l,
+                            ID_S = id_s,
+
+                        };
+                        context.Serviciis.Add(serv);
+                        context.Entry(serv).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
+                        transaction.Commit();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        return false;
+                    }
+                }
+            }
+        }
     }
 }
