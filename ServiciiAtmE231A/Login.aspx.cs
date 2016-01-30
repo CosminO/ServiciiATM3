@@ -16,11 +16,13 @@ namespace ServiciiAtmE231A
 
         protected void Button_Login_Click(object sender, EventArgs e)
         {
-            if (TextBoxUserName.Text == "1@yahoo.com" && TextBoxPassword.Text == "2@yahoo.com")
+            if (TextBoxUserName.Text == "1@yahoo.com" && TextBoxPassword.Text == "2")
             {
                 Session["new"] = TextBoxUserName.Text;
                 Response.Write("Successfull logged in");
                 Response.Redirect("~/Student/StudentPage.aspx");
+                
+                
             }
             else
             {

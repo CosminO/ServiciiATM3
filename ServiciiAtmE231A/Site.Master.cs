@@ -9,12 +9,17 @@ using System.Web.UI.WebControls;
 
 namespace ServiciiAtmE231A
 {
+   
     public partial class SiteMaster : MasterPage
     {
         private const string AntiXsrfTokenKey = "__AntiXsrfToken";
         private const string AntiXsrfUserNameKey = "__AntiXsrfUserName";
-        private string _antiXsrfTokenValue;
-
+        private string _antiXsrfTokenValue;    
+        public  void hide()
+        {
+            
+            
+        }
         protected void Page_Init(object sender, EventArgs e)
         {
             // The code below helps to protect against XSRF attacks
@@ -49,6 +54,7 @@ namespace ServiciiAtmE231A
 
         protected void master_Page_PreLoad(object sender, EventArgs e)
         {
+            
             if (!IsPostBack)
             {
                 // Set Anti-XSRF token
@@ -66,9 +72,10 @@ namespace ServiciiAtmE231A
             }
         }
 
-        protected void Page_Load(object sender, EventArgs e)
+         protected  void Page_Load(object sender, EventArgs e)
         {
-
+        
+             
         }
 
         protected void Unnamed_LoggingOut(object sender, LoginCancelEventArgs e)

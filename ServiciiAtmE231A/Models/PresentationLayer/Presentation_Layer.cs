@@ -13,20 +13,20 @@ namespace ServiciiAtmE231A.Models.PresentationLayer
             return _bl.Print_Servicii_Data(d);
         }
 
-        public IEnumerable<Apel_seara> showApel_Seara()
-        {
+        //public IEnumerable<Apel_seara> showApel_Seara()
+        //{
             
-            return _bl.showApel_Seara();
-        }
-        public IEnumerable<Servicii> showServici()
-        {
+        //    return _bl.showApel_Seara();
+        //}
+        //public IEnumerable<Servicii> showServici()
+        //{
           
-            return _bl.showServicii();
-        }
-        public IEnumerable<Comandanti> showComandanti()
-        {
-            return _bl.showComandanti();
-        }
+        //    return _bl.showServicii();
+        //}
+        //public IEnumerable<Comandanti> showComandanti()
+        //{
+        //    return _bl.showComandanti();
+        //}
 
     }
 }

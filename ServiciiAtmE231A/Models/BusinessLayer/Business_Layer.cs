@@ -98,7 +98,7 @@ namespace ServiciiAtmE231A.Models
         //Userul va inregistra Email-ul de pe care este conectat
         public void setEmailUser(string Email)
         {
-            _user.email = Email;
+            //_user.email = Email;
 
         }
 

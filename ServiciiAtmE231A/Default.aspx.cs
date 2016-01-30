@@ -15,18 +15,23 @@ namespace ServiciiAtmE231A
         
         protected void Page_Load(object sender, EventArgs e)
         {
-            _pl._bl.Email_to_single("popamadalin5@gmail.com", "serviciiatm@gmail.com", "Functie_single", "asta e functia pentru un singur email", "paul1994");
-            _pl._bl.Email_to_single("urianpaul94@yahoo.com", "serviciiatm@gmail.com", "Functie_single", "asta e functia pentru un singur email", "paul1994");
-            _pl._bl.Email_to_single("arsene.diana.andreea@gmail.com", "serviciiatm@gmail.com", "Functie_single", "asta e functia pentru un singur email", "paul1994");
+            //_pl._bl.Email_to_single("popamadalin5@gmail.com", "serviciiatm@gmail.com", "Functie_single", "asta e functia pentru un singur email", "paul1994");
+            //_pl._bl.Email_to_single("urianpaul94@yahoo.com", "serviciiatm@gmail.com", "Functie_single", "asta e functia pentru un singur email", "paul1994");
+            //_pl._bl.Email_to_single("arsene.diana.andreea@gmail.com", "serviciiatm@gmail.com", "Functie_single", "asta e functia pentru un singur email", "paul1994");
 
             List<string> l = new List<string>();
             l.Add("popamadalin5@gmail.com");
             l.Add("arsene.diana.andreea@gmail.com");
             l.Add("urianpaul94@yahoo.com");
-            _pl._bl.Email_to_all(l, "serviciiatm@gmail.com", "Functie_to_all", "asta e functia pentru toate emailurile.", "paul1994");
+            //_pl._bl.Email_to_all(l, "serviciiatm@gmail.com", "Functie_to_all", "asta e functia pentru toate emailurile.", "paul1994");
            
             GridView2.DataSource = _pl.Afisare_servicii(d);
             GridView2.DataBind();
+        }
+
+        protected void GridView2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
