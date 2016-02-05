@@ -15,6 +15,8 @@ namespace ServiciiAtmE231A.Models
         public static dbConnection con = new dbConnection();
         public static Database_Access_Layer _dal = new Database_Access_Layer();
         public readonly ServiciiATMContext context = new ServiciiATMContext();
+        
+        
         public List<Comandanti> Comandanti()
         {
             List<Comandanti> Comandanti = new List<Comandanti>();

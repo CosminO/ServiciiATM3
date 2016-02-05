@@ -537,5 +537,53 @@ namespace ServiciiAtmE231A.Models
                 Console.WriteLine("{0} Exception caught.", e);
             }
         }
+
+
+        public List<Comandanti> get_Comandanti()
+        {
+            List<Comandanti> l = new List<Comandanti>();
+            l = _dal.Comandanti();
+            return l;
+        }
+        public List<Studenti> get_Studenti()
+        {
+            List<Studenti> l = new List<Studenti>();
+            l = _dal.Studenti();
+            return l;
+        }
+        public List<Companii> get_Companii()
+        {
+            List<Companii> l = new List<Companii>();
+            l = _dal.Companii();
+            return l;
+        }
+        public List<Invoire_apel> get_Invoire_apel()
+        {
+            List<Invoire_apel> l = new List<Invoire_apel>();
+            l = _dal.Invoire_apel();
+            return l;
+        }
+        public List<Apel_seara> get_Apel_seara()
+        {
+            List<Apel_seara> l = new List<Apel_seara>();
+            l = _dal.Apel_seara();
+            return l;
+        }
+        public List<Lista_servicii> get_Lista_servicii()
+        {
+            List<Lista_servicii> l = new List<Lista_servicii>();
+            l = _dal.Lista_servicii();
+            return l;
+        }
+        public List<Servicii> get_Servicii()
+        {
+            List<Servicii> l = new List<Servicii>();
+            l = _dal.Servicii();
+            return l;
+        }
+
+
+
+
     }
 }
