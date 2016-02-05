@@ -278,8 +278,91 @@ namespace ServiciiAtmE231A.Models
 
         }
 
+        //adauga un student la invoire apel
+        public void Insert_invoire_apel(int id_s, DateTime data, TimeSpan ora_plecare, TimeSpan ora_sosire, int code)
+        {
+            try
+            {
+                _dal.InsertInvoireSeara(id_s, data, ora_plecare, ora_sosire, code);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine("{0} Exception caught.", e);
+            }
+        }
+        //adauga un serviciu
+        public void Insert_lista_servicii(string nume, int nr_comp, string an, int code)
+        {
+            try
+            {
+                _dal.InsertListaServicii(nume,nr_comp,an,code);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("{0} Exception caught.", e);
+            }
+        }
+        //adauga un student
+        public void Insert_Studenti(int id_c, string nume, string prenume, string mail, string tel, string grad, int camera, string functie, int code)
+        {
+            try
+            {
+                _dal.InsertStudenti(id_c, nume, prenume, mail, tel, grad, camera, functie, code);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("{0} Exception caught.", e);
+            }
 
-
-
+        }
+        //adauga un student la un anumit serviciu.
+        public void Insert_Servicii(int id_l, int id_s, DateTime data, bool check, int code)
+        {
+            try
+            {
+                _dal.InsertServicii(id_l,id_s,data,check,code);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("{0} Exception caught.", e);
+            }
+        }
+        //adaga efectivele pe companii.
+        public void Insert_Efective_Apel_seara(int id_c, int efc, int efp, int efa, DateTime data, int code)
+        {
+            try
+            {
+                _dal.InsertApelSeara(id_c,efc,efp,efa,data,code);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("{0} Exception caught.", e);
+            }
+        }
+        //adauga comandant de cp.
+        public void Insert_Comandanti(string name, string lastname, string tel, string mail, string adr, string gm, int code)
+        {
+            try
+            {
+                _dal.InsertComandanti(name,lastname,tel,mail,adr,gm,code);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("{0} Exception caught.", e);
+            }
+        }
+        //adauga companie.
+        public void Insert_Companii(int id_com, string an_studiu, int code)
+        {
+            try
+            {
+                _dal.InsertCompanii(id_com,an_studiu,code);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("{0} Exception caught.", e);
+            }
+        }
+       
     }
 }
