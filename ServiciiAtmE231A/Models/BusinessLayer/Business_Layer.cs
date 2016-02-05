@@ -450,6 +450,92 @@ namespace ServiciiAtmE231A.Models
             }
         }
 
+        //update invoire apel
+        public void Update_invoire_apel(int id_s, DateTime data, TimeSpan ora_plecare, TimeSpan ora_sosire, int code)
+        {
+            try
+            {
+                _dal.UpdateInvoireApel(id_s,data,ora_plecare,ora_sosire,code);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("{0} Exception caught.", e);
+            }
 
+        }
+        //update lista servicii
+        public void Update_lista_servicii(string nume, int nr, string an, int code)
+        {
+            try
+            {
+                _dal.UpdateListaServicii(nume,nr,an,code);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("{0} Exception caught.", e);
+            }
+
+        }
+        //update student
+        public void Update_student(int id_c, string name, string prenume, string email, string tel, string grad, int camera, string functie, int code)
+        {
+            try
+            {
+                _dal.UpdateStudenti(id_c, name, prenume, email, tel, grad, camera, functie, code);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("{0} Exception caught.", e);
+            }
+
+        }
+        //update apel seara
+        public void Update_apel_seara(int id_c, int efc, int efp, int efa, DateTime data, int code)
+        {
+            try
+            {
+                _dal.UpdateApelSeara(id_c,efc,efp,efa,data,code);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("{0} Exception caught.", e);
+            }
+        }
+        //update comandanti companie
+        public void Update_comandanti_cp(string name, string lastname, string tel, string mail, string adr, string gm, int code)
+        {
+            try
+            {
+                _dal.UpdateComandanti(name,lastname,tel,mail,adr,gm,code);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("{0} Exception caught.", e);
+            }
+        }
+        //update companie
+        public void Update_Companii(int id_com, string an_studiu, int code)
+        {
+            try
+            {
+                _dal.UpdateCompanii(id_com, an_studiu, code);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("{0} Exception caught.", e);
+            }
+        }
+        //update servicii
+        public void Update_servicii(int id_l, int id_s, DateTime data, bool check, int code)
+        {
+            try
+            {
+                _dal.UpdServicii(id_l,id_s,data,check,code);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("{0} Exception caught.", e);
+            }
+        }
     }
 }
