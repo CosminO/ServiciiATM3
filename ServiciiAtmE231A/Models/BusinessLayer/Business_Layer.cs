@@ -227,6 +227,56 @@ namespace ServiciiAtmE231A.Models
             return i;
         }
 
+        public void Email_to_single(string to, string from, string subject, string message, string password)
+        {
+            MailMessage msg = new MailMessage();
+            msg.From = new MailAddress(from);
+            msg.To.Add(new MailAddress(to));
+            msg.Subject = subject;
+            msg.Body = message;
+            msg.IsBodyHtml = true;
+
+            SmtpClient smtp = new SmtpClient();
+            smtp.Host = "smtp.gmail.com";
+
+            System.Net.NetworkCredential Network_Cred = new System.Net.NetworkCredential();
+            Network_Cred.UserName = from;
+            Network_Cred.Password = password;
+
+            smtp.UseDefaultCredentials = true;
+            smtp.Credentials = Network_Cred;
+            smtp.Port = 587;
+            smtp.EnableSsl = true;
+            //smtp.Send(msg);
+
+        }
+
+        public void Email_to_all(List<string> emails, string from, string subject, string message, string password)
+        {
+            SmtpClient smtp = new SmtpClient();
+            smtp.Host = "smtp.gmail.com";
+            System.Net.NetworkCredential Network_Cred = new System.Net.NetworkCredential();
+            Network_Cred.UserName = from;
+            Network_Cred.Password = password;
+
+            smtp.UseDefaultCredentials = true;
+            smtp.Credentials = Network_Cred;
+            smtp.Port = 587;
+            smtp.EnableSsl = true;
+
+            foreach (var email_adress in emails)
+            {
+                MailMessage msg = new MailMessage();
+                msg.From = new MailAddress(from);
+                msg.To.Add(new MailAddress(email_adress));
+                msg.Subject = subject;
+                msg.Body = message;
+                msg.IsBodyHtml = true;
+                //smtp.Send(msg);
+
+            }
+
+        }
 
 
 
