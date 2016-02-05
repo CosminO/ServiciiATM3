@@ -363,6 +363,93 @@ namespace ServiciiAtmE231A.Models
                 Console.WriteLine("{0} Exception caught.", e);
             }
         }
-       
+
+        //sterge un apel de seara.
+        public void Delete_apel_seara(DateTime data)
+        {
+            try
+            {
+                _dal.DeleteApelSeara(data);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("{0} Exception caught.", e);
+            }
+        }
+        //sterge servicii.
+        public void Delete_lista_servicii(string name)
+        {
+            try
+            {
+                _dal.DeleteListaServicii(name);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("{0} Exception caught.", e);
+            }
+        }
+        //sterge o companie in functie de anul de studiu.
+        public void Delete_Companii(string an)
+        {
+            try
+            {
+                _dal.DeleteCompanii(an);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("{0} Exception caught.", e);
+            }
+        }
+        //sterge un student.
+        public void Delete_student(string name, string lastname)
+        {
+            try
+            {
+                _dal.DeleteStudent(name, lastname);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("{0} Exception caught.", e);
+            }
+        }
+        //sterge un serviciu al unui student in functie de data.
+        public void Delete_servicii(DateTime time)
+        {
+            try
+            {
+                _dal.DeleteServicii(time);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("{0} Exception caught.", e);
+            }
+
+        }
+        //sterge un comandant de cp.
+        public void Delete_comandanti(string nume, string prenume)
+        {
+            try
+            {
+                _dal.DeleteComandanti(nume, prenume);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("{0} Exception caught.", e);
+            }
+        }
+        //sterge o invoire de la apel in functie de data.
+        public void Delete_invoire_apel(DateTime dt)
+        {
+            try
+            {
+                _dal.DeleteInvApel(dt);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("{0} Exception caught.", e);
+            }
+        }
+
+
     }
 }
